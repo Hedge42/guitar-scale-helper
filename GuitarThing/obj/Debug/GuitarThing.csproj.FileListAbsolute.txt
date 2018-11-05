@@ -1,0 +1,15 @@
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\bin\Debug\GuitarThing.exe.config
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\bin\Debug\GuitarThing.exe
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\bin\Debug\GuitarThing.pdb
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.csprojAssemblyReference.cache
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\MainWindow.g.cs
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\App.g.cs
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing_MarkupCompile.cache
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing_MarkupCompile.lref
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\MainWindow.baml
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.g.resources
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.Properties.Resources.resources
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.csproj.GenerateResource.cache
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.csproj.CoreCompileInputs.cache
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.exe
+C:\Users\Tyler\Desktop\Coding\GuitarThing\GuitarThing\obj\Debug\GuitarThing.pdb
