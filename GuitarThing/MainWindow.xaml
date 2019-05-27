@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GuitarThing"
         mc:Ignorable="d"
-        Title="Scale Helper" Height="479.169" Width="648.273">
+        Title="Scale Helper" Height="438.774" Width="460.227">
     <Grid ShowGridLines="True">
-        <TextBox Name="tblGuitar" HorizontalScrollBarVisibility="Auto" TextWrapping="NoWrap"  Text="TextBox" Background="#FFD1D1D1" VerticalAlignment="Bottom" Height="140" FontFamily="Courier New"/>
-        <TextBlock Name="tbScale" Text="C, D, D# ...." VerticalAlignment="Top" TextAlignment="Right" Height="20" Background="#FFD1A6A6" FontFamily="Courier New"/>
-        <Grid Name="grdSettings" Background="#FFFFBEBE" Margin="0,20,0,140">
-            <ComboBox Name="cmbSign" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Margin="115,10,0,0">
+        <TextBox Name="tbGuitar" HorizontalScrollBarVisibility="Auto" TextWrapping="NoWrap"  Text="TextBox" Background="#FFD1D1D1" VerticalAlignment="Bottom" Height="130" FontFamily="Courier New"/>
+        <TextBlock Name="tblScale" Text="C, D, D# ...." VerticalAlignment="Top" Height="20" Background="#FFD1A6A6" FontFamily="Courier New"/>
+        <Grid Name="grdSettings" Background="#AAAABB" Margin="0,20,0,163">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Sign" VerticalAlignment="Top" Margin="10,117,0,0"/>
+            <ComboBox Name="cmbSign" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="7,133,0,0">
                 <ComboBoxItem Content="Flats"/>
                 <ComboBoxItem Content="Sharps"/>
             </ComboBox>
-            <ComboBox Name="cmbMode" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Margin="10,10,0,0">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Mode" VerticalAlignment="Top" Margin="10,18,0,0"/>
+            <ComboBox Name="cmbMode" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="7,34,0,0">
                 <ComboBoxItem Content="Ionian"/>
                 <ComboBoxItem Content="Dorian"/>
                 <ComboBoxItem Content="Phrygian"/>
@@ -23,7 +25,8 @@
                 <ComboBoxItem Content="Aeolian"/>
                 <ComboBoxItem Content="Locrian"/>
             </ComboBox>
-            <ComboBox Name="cmbKey" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Margin="10,50,0,0">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Key" VerticalAlignment="Top" Margin="10,68,0,0"/>
+            <ComboBox Name="cmbKey" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="7,84,0,0">
                 <ComboBoxItem Content="C"/>
                 <ComboBoxItem Content="C#"/>
                 <ComboBoxItem Content="D"/>
@@ -37,36 +40,41 @@
                 <ComboBoxItem Content="A#"/>
                 <ComboBoxItem Content="B"/>
             </ComboBox>
-            
-            <ComboBox Name="cmbStartFret" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="220,10,0,0"/>
-            <ComboBox Name="cmbEndFret" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="220,37,0,0"/>
 
-            <ComboBox Name="cmbIndicator" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="325,10,0,0">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Start Fret" VerticalAlignment="Top" Margin="88,18,0,0"/>
+            <ComboBox Name="cmbStartFret" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="88,35,0,0"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="End Fret" VerticalAlignment="Top" Margin="88,68,0,0"/>
+            <ComboBox Name="cmbEndFret" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="88,84,0,0"/>
+
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Fret Indicator" VerticalAlignment="Top" Margin="88,117,0,0"/>
+            <ComboBox Name="cmbIndicator" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="88,133,0,0">
                 <ComboBoxItem Content="Dots"/>
                 <ComboBoxItem Content="Numbers"/>
             </ComboBox>
 
-            <Expander Header="Intervals" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="100">
+            <StackPanel Name="spDisplay" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,146,0,0">
+                <CheckBox Content="Notes" IsChecked="True"/>
+                <CheckBox Content="Intervals" IsChecked="True"/>
+            </StackPanel>
+            <StackPanel Name="spIntervals" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,34,0,0">
+                <CheckBox Content="1st" IsChecked="True"/>
+                <CheckBox Content="2nd" IsChecked="True"/>
+                <CheckBox Content="3rd" IsChecked="True"/>
+                <CheckBox Content="4th" IsChecked="True"/>
+                <CheckBox Content="5th" IsChecked="True"/>
+                <CheckBox Content="6th" IsChecked="True"/>
+                <CheckBox Content="7th" IsChecked="True"/>
+            </StackPanel>
+            <!--<Expander Header="Intervals" HorizontalAlignment="Left" Margin="230,84,0,0" VerticalAlignment="Top" Width="100" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ScrollViewer Background="White">
-                    <StackPanel Name="spIntervals" Orientation="Vertical">
-                        <CheckBox Content="1st" IsChecked="True"/>
-                        <CheckBox Content="2nd" IsChecked="True"/>
-                        <CheckBox Content="3rd" IsChecked="True"/>
-                        <CheckBox Content="4th" IsChecked="True"/>
-                        <CheckBox Content="5th" IsChecked="True"/>
-                        <CheckBox Content="6th" IsChecked="True"/>
-                        <CheckBox Content="7th" IsChecked="True"/>
-                    </StackPanel>
                 </ScrollViewer>
             </Expander>
-            <Expander Header="Display" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="100">
+            <Expander Header="Display" HorizontalAlignment="Left" Margin="230,27,0,0" VerticalAlignment="Top" Width="100" ScrollViewer.VerticalScrollBarVisibility="Auto" IsExpanded="True">
                 <ScrollViewer Background="White">
-                    <StackPanel Name="spDisplay" Orientation="Vertical">
-                        <CheckBox Content="Notes" IsChecked="True"/>
-                        <CheckBox Content="Intervals" IsChecked="True"/>
-                    </StackPanel>
                 </ScrollViewer>
-            </Expander>
+            </Expander>-->
         </Grid>
+        <Button x:Name="btnProgression" Content="New Progression" HorizontalAlignment="Left" Margin="0,0,0,130" VerticalAlignment="Bottom" Width="104" Height="33"/>
+        <TextBlock x:Name="tblProgression" Margin="104,0,0,130" TextWrapping="Wrap" Text="Chords&#x0a;Intervals" VerticalAlignment="Bottom" Height="33" Background="#FFD2CBFF"/>
     </Grid>
 </Window>

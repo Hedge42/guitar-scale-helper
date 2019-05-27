@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarThing", "GuitarThing\GuitarThing.csproj", "{B8B3FFFA-8DEA-4439-8AD7-5E00072CEFE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarScaler", "GuitarThing\GuitarScaler.csproj", "{B8B3FFFA-8DEA-4439-8AD7-5E00072CEFE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
