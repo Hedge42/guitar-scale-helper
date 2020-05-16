@@ -60,7 +60,7 @@ public class Scale
     };
 
     // Adapted from Python script...
-    public Scale (int scaleType=0, int key=0, int mode=0, bool clamp=true)
+    public Scale (int scaleType=0, int key=0, int mode=0)
     {
         this.scaleType = scaleType;
         this.notes = new int[7];
@@ -69,9 +69,8 @@ public class Scale
         {
             int interval = (mode + i) % 7;
             int note = (baseScale[interval] - baseScale[mode] + key) % 12;
-            if (!clamp)
-                while (note < notes[i - 1])
-                    note += 12;
+            while (note < 0)
+               note += 12;
             notes[i] = note;
         }
     }
@@ -94,7 +93,6 @@ public class Scale
     public bool IsMinor(int interval)
     {
         int chordRootNote = notes[interval];
-        //int chordThirdNote = notes[Clamp(interval + 2, 7)];
         int chordThirdNote = notes[(interval + 2) % 7];
         if (chordThirdNote < chordRootNote)
             chordThirdNote += 12;
@@ -104,6 +102,7 @@ public class Scale
     // C, C#, Eb...
     public static string GetNoteName(int note, bool preferFlats, bool pad)
     {
+
         switch (note)
         {
             case 0:
@@ -131,7 +130,7 @@ public class Scale
             case 11:
                 return pad ? "B " : "B";
             default:
-                return "?";
+                return note.ToString() + "?";
         }
     }
 
