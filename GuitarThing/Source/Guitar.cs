@@ -14,23 +14,21 @@ namespace GuitarThing
             4   // E - 6th string 
         };
 
+        
 
-        public static string WriteGuitar(int startFret, int endFret, int mode, int key, int[] intervals, bool preferFlatsToSharps, int[] displayPreference, bool isDots)
+        public static string WriteGuitar(Scale scale, int[] intervals, int tuning=0, int startFret=0, int endFret=15, bool preferFlatsToSharps=true, int[] displayPreference=null, bool isDots=false)
         {
             string guitar = "";
 
-            // TODO: don't generate scale twice              
-            Scale s = new Scale(key, mode, preferFlatsToSharps);
-            int[] scale = s.intScale;
-            int[] filteredScale = s.GetIntervals(intervals);
-
+            int[] openNotes = GetTuning(tuning);
+            int[] filteredNotes = scale.GetIntervals(intervals);
             string indicatorLine = GetIndicatorLine(startFret, endFret, isDots);
 
             // write indicator on both sides
             guitar += indicatorLine;
-            foreach (int openString in StandardTuning)
+            foreach (int openString in openNotes)
             {
-                string guitarString = WriteGuitarString(startFret, endFret, preferFlatsToSharps, displayPreference, scale, filteredScale, openString);
+                string guitarString = WriteGuitarString(startFret, endFret, preferFlatsToSharps, displayPreference, scale.notes, filteredNotes, openString);
                 guitar += guitarString;
             }
             guitar += indicatorLine;
@@ -47,14 +45,12 @@ namespace GuitarThing
             {
                 string fret = "";
 
-                int intAtFret = Scale.Clamp12(openString + i);
-                string noteAtFret = Scale.IntToString(intAtFret, isFlats, true);
+                int intAtFret = (openString + i) % 12;
+                string noteAtFret = Scale.GetNoteName(intAtFret, isFlats, true);
 
+                // print note stuff in this fret
                 if (IsContained(intAtFret, filteredScale))
                 {
-                    // print *something* here
-
-
                     if (displayPreference.Length == 0)
                     {
                         // dots
@@ -107,7 +103,7 @@ namespace GuitarThing
             for (int i = startFret; i <= endFret; i++)
             {
                 // TODO lol
-                if (i == 3 || i == 5 || i == 7 || i == 9 || i == 12 || i == 15 || i == 17 || i == 19 || i == 21 || i == 24)
+                if (i==0 || i == 3 || i == 5 || i == 7 || i == 9 || i == 12 || i == 15 || i == 17 || i == 19 || i == 21 || i == 24)
                 {
                     if (isDots)
                         s += "[<>] ";
@@ -123,6 +119,49 @@ namespace GuitarThing
                     s += "     ";
             }
             return s + "\r\n";
+        }
+
+        private static int[] GetTuning(int tuning)
+        {
+            // TODO Lmao
+
+            // 0 = E standard
+            if (tuning == 0)
+                return GetTuning(6, 0, false);
+            // 1 = Drop D
+            else if (tuning == 1)
+                return GetTuning(6, 0, true);
+            // 2 = Eb standard
+            else if (tuning == 2)
+                return GetTuning(6, 1, false);
+            // 3 = Drop Db
+            else if (tuning == 3)
+                return GetTuning(6, 1, true);
+            // 4 = D standard
+            else if (tuning == 4)
+                return GetTuning(6, 2, false);
+            // 5 = Drop C
+            else if (tuning == 5)
+                return GetTuning(6, 2, true);
+
+            // LOL
+            return null;
+        }
+        private static int[] GetTuning(int numStrings, int downTones, bool dropped)
+        {
+            int[] strings = new int[numStrings];
+
+            for (int i = 0; i < numStrings; i++)
+            {
+                // string - downtones
+                int note = (StandardTuning[i] + (12 - downTones)) % 12;
+                strings[i] = note;
+            }
+
+            if (dropped)
+                strings[numStrings - 1] = (strings[numStrings - 1] + 10) % 12;
+
+            return strings;
         }
     }
 }

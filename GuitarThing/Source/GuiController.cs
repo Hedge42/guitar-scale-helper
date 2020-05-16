@@ -13,6 +13,8 @@ namespace GuitarThing
         private static ComboBox cmbStartFret = MainWindow.instance.cmbStartFret;
         private static ComboBox cmbEndFret = MainWindow.instance.cmbEndFret;
         private static ComboBox cmbIndicator = MainWindow.instance.cmbIndicator;
+        private static ComboBox cmbScale = MainWindow.instance.cmbScale;
+        private static ComboBox cmbTuning = MainWindow.instance.cmbTuning;
 
         private static StackPanel spIntervals = MainWindow.instance.spIntervals;
         private static StackPanel spDisplay = MainWindow.instance.spDisplay;
@@ -28,6 +30,12 @@ namespace GuitarThing
             InitializeComboBox(cmbKey);
             InitializeComboBox(cmbSign);
             InitializeComboBox(cmbIndicator);
+
+            // TODO
+            InitializeComboBox(cmbScale);
+            InitializeComboBox(cmbTuning);
+
+
             InitializeCheckBoxes(spDisplay);
             InitializeCheckBoxes(spIntervals);
 
@@ -53,13 +61,18 @@ namespace GuitarThing
             int startFret = GetSelectedInt(cmbStartFret);
             int endFret = GetSelectedInt(cmbEndFret);
 
+            // TODO
+            int scaleType = GetSelectedInt(cmbScale);
+            int tuning = GetSelectedInt(cmbTuning);
+
             UpdateFretComboBoxItems(startFret, endFret);
             UpdateKeyComboBoxItems(isFlats);
 
-            Scale scale = new Scale(key, mode);
+            Scale scale = new Scale(scaleType, key, mode);
+            tbGuitar.Text = Guitar.WriteGuitar(scale, intervals, tuning:tuning, startFret:startFret, endFret:endFret, preferFlatsToSharps:isFlats, displayPreference: displayPreference, isDots: isDots);
 
-            tbGuitar.Text = Guitar.WriteGuitar(startFret, endFret, mode, key, intervals, isFlats, displayPreference, isDots);
-            tblScale.Text = scale.GetDescription() + " " + scale.ToString(isFlats);
+            //tbGuitar.Text = Guitar.WriteGuitar(scaleType, startFret, endFret, mode, key, intervals, isFlats, displayPreference, isDots);
+            tblScale.Text = scale.GetScaleName() + " - " + scale.ToString(isFlats);
             tblProgression.Text = new Progression(scale, 4).ToString();
         }
 
@@ -170,7 +183,7 @@ namespace GuitarThing
                 if (i == 1 || i == 3 || i == 6 || i == 8 || i == 10)
                 {
                     ComboBoxItem item = (ComboBoxItem)cmbKey.Items[i];
-                    item.Content = Scale.IntToString(i, preferFlats, false);
+                    item.Content = Scale.GetNoteName(i, preferFlats, false);
                 }
             }
         }

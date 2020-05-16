@@ -15,6 +15,20 @@
                 <ComboBoxItem Content="Flats"/>
                 <ComboBoxItem Content="Sharps"/>
             </ComboBox>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Scale" VerticalAlignment="Top" Margin="10,165,0,0"/>
+            <ComboBox Name="cmbScale" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="7,181,0,0">
+                <ComboBoxItem Content="Major"/>
+                <ComboBoxItem Content="Harmonic"/>
+            </ComboBox>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Tuning" VerticalAlignment="Top" Margin="88,165,0,0"/>
+            <ComboBox Name="cmbTuning" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="88,181,0,0">
+                <ComboBoxItem Content="E standard"/>
+                <ComboBoxItem Content="Drop D"/>
+                <ComboBoxItem Content="Eb standard"/>
+                <ComboBoxItem Content="Drop Db"/>
+                <ComboBoxItem Content="D standard"/>
+                <ComboBoxItem Content="Drop C"/>
+            </ComboBox>
             <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Mode" VerticalAlignment="Top" Margin="10,18,0,0"/>
             <ComboBox Name="cmbMode" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Margin="7,34,0,0">
                 <ComboBoxItem Content="Ionian"/>
@@ -40,7 +54,6 @@
                 <ComboBoxItem Content="A#"/>
                 <ComboBoxItem Content="B"/>
             </ComboBox>
-
             <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Start Fret" VerticalAlignment="Top" Margin="88,18,0,0"/>
             <ComboBox Name="cmbStartFret" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Margin="88,35,0,0"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="End Fret" VerticalAlignment="Top" Margin="88,68,0,0"/>

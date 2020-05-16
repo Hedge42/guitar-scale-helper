@@ -14,6 +14,7 @@ public class Scale
     // 4 = Mixolydian,
     // 5 = Aeolian,
     // 6 = Locrian
+    public int mode { get; private set; }
 
     // Notes / Keys
     // 0 = C
@@ -28,146 +29,80 @@ public class Scale
     // 9 = A
     // 10 = A# / Bb
     // 11 = B
-
     public int key { get; private set; }
-    public int mode { get; private set; }
-    public int[] intScale { get; private set; }
+
+    // 0 = Major
+    // 1 = Harmonic Minor
+    // 2 = Hungarian Minor???
+    public int scaleType { get; private set; }
+
+    // [0, 2, 4, 5, 7, 9, 11]...
+    public int[] notes { get; private set; }
+
+    // C, D, Eb, F...
     public string stringScale { get; private set; }
-    private bool preferFlats = false;
+    private bool preferFlats = true;
 
-    public Scale(int key, int mode)
+    private readonly int[][] Scales = new int[][]
     {
-        this.key = Clamp(key, 12);
-        this.mode = Clamp(mode, 7);
-        intScale = GetNotes();
-    }
-    public Scale(int key, int mode, bool preferFlats)
-    {
-        this.key = Clamp(key, 12);
-        this.mode = Clamp(mode, 7);
-        intScale = GetNotes();
-        this.preferFlats = preferFlats;
-    }
-
-    private readonly int[] CMajor = new int[]
-    {
+        new int[]
+        {
+            // Major
             0, 2, 4, 5, 7, 9, 11
+        },
+
+        new int[]
+        {
+            // Harmonic Minor
+            // Aeolian #7
+            0, 2, 3, 5, 7, 8, 11
+        },
     };
 
-    /// <summary>
-    /// Returns array of length 7. The index is the interval (+1) of the scale
-    /// </summary>
-    /// <returns></returns>
-    private int[] GetNotes()
+    // Adapted from Python script...
+    public Scale (int scaleType=0, int key=0, int mode=0, bool clamp=true)
     {
-        int[] scale = new int[7];
-        for (int i = 0; i < scale.Length; i++)
+        this.scaleType = scaleType;
+        this.notes = new int[7];
+        int[] baseScale = Scales[scaleType];
+        for (int i = 0; i < notes.Length; i++)
         {
-            int modalOffset = CMajor[mode];
-
-            int index = Clamp(mode + i, 7);
-            int note = Clamp(CMajor[index] + key - modalOffset, 12);
-            scale[i] = note;
+            int interval = (mode + i) % 7;
+            int note = (baseScale[interval] - baseScale[mode] + key) % 12;
+            if (!clamp)
+                while (note < notes[i - 1])
+                    note += 12;
+            notes[i] = note;
         }
-        return scale;
     }
 
-    /// <summary>
-    /// ie, "A#m7"
-    /// </summary>
-    /// <param name="interval"></param>
-    /// <param name="add7"></param>
-    /// <returns></returns>
+    // ie, "A#m "
     public string GetChordName(int interval)
     {
-        interval = Clamp(interval, 7);
-        return IntToString(intScale[interval], preferFlats, false) + (IsMinor(interval) ? "m" : "");
+        interval %= 7;
+        return GetNoteName(notes[interval], preferFlats, false) + (IsMinor(interval) ? "m" : "");
     }
+
+    // whitelisting intervals
     public int[] GetIntervals(int[] intervals)
     {
         int[] filtered = new int[intervals.Length];
         for (int i = 0; i < filtered.Length; i++)
-            filtered[i] = intScale[intervals[i]];
+            filtered[i] = notes[intervals[i]];
         return filtered;
     }
-
-    /// <summary>
-    /// Consistent per mode
-    /// </summary>
-    /// <param name="interval"></param>
-    /// <returns></returns>
     public bool IsMinor(int interval)
     {
-        int chordRootNote = intScale[interval];
-        int chordThirdNote = intScale[Clamp(interval + 2, 7)];
+        int chordRootNote = notes[interval];
+        //int chordThirdNote = notes[Clamp(interval + 2, 7)];
+        int chordThirdNote = notes[(interval + 2) % 7];
         if (chordThirdNote < chordRootNote)
             chordThirdNote += 12;
         return chordThirdNote - chordRootNote == 3;
     }
 
-    /// <summary>
-    /// -1 < returned < exclusiveUpperBound.
-    /// </summary>
-    /// <param name="num"></param>
-    /// <param name="exlusiveUpperBound"></param>
-    /// <returns></returns>
-    private static int Clamp(int num, int exlusiveUpperBound)
-    {
-        num %= exlusiveUpperBound;
-        if (num < 0)
-            num += exlusiveUpperBound;
-        return num;
-    }
-    /// <summary>
-    /// Used for chromatic scale
-    /// </summary>
-    /// <param name="num"></param>
-    /// <returns></returns>
-    public static int Clamp12(int num)
-    {
-        return Clamp(num, 12);
-    }
-    /// <summary>
-    /// Used for modes and intervals
-    /// </summary>
-    /// <param name="num"></param>
-    /// <returns></returns>
-    public static int Clamp7(int num)
-    {
-        return Clamp(num, 7);
-    }
-
-    /// <summary>
-    /// Sets future state of preferFlats to the param value
-    /// </summary>
-    /// <param name="preferFlats"></param>
-    /// <returns></returns>
-    public string ToString(bool preferFlats)
-    {
-        this.preferFlats = preferFlats;
-
-        string line = "";
-        foreach (int note in intScale)
-            line += IntToString(note, this.preferFlats, true) + " ";
-        return line;
-    }
-
-    /// <summary>
-    /// Calls ToString(flats) with internal value
-    /// </summary>
-    /// <returns></returns>
-    public override string ToString()
-    {
-        return ToString(preferFlats);
-    }
-
-    /// <summary>
-    /// C = 0, C# = 1, D = 2, ... , B = 11
-    /// </summary>
-    /// <param name="note"></param>
-    /// <param name="preferFlats"></param>
-    /// <returns></returns>
-    public static string IntToString(int note, bool preferFlats, bool pad)
+    // C, C#, Eb...
+    public static string GetNoteName(int note, bool preferFlats, bool pad)
     {
         switch (note)
         {
@@ -200,10 +135,8 @@ public class Scale
         }
     }
 
-    /// <summary>
-    /// C = 0, C# = 1, D = 2, ... , B = 11
-    /// </summary>
-    public static int StringToInt(string note)
+    // 0, 1, 2...11
+    public static int GetNoteValue(string note)
     {
         note = note.ToLower().Trim();
         switch (note)
@@ -267,11 +200,25 @@ public class Scale
         }
     }
 
-    public string GetDescription()
+    // Major, Melodic Minor, Hungarian Minor...
+    public static string GetScaleType(int type)
     {
-        return IntToString(key, preferFlats, false) + " " + GetMode();
+        if (type == 0)
+            return "Major";
+        else if (type == 1)
+            return "Harmonic Minor";
+        else
+            return "Not recognized";
     }
-    private string GetMode()
+
+    // C# Harmonic Minor Ionian
+    public string GetScaleName()
+    {
+        return GetNoteName(key, preferFlats, false) + " " + GetScaleType(scaleType) + " " + GetModeName();
+    }
+
+    // Ionian...Locrian
+    private string GetModeName()
     {
         switch (mode)
         {
@@ -292,5 +239,21 @@ public class Scale
             default:
                 return "u wot";
         }
+    }
+
+    // C#, D#...C
+    public string ToString(bool preferFlats)
+    {
+        this.preferFlats = preferFlats;
+
+        string line = "";
+        for (int i = 0; i < notes.Length; i++)
+            line += GetNoteName(notes[i], this.preferFlats, false) + (IsMinor(i) ? "m" : "") + " ";
+        return line;
+    }
+
+    public override string ToString()
+    {
+        return ToString(preferFlats);
     }
 }
